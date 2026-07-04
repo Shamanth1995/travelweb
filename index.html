@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yatrasiri Travels - South India Expeditions</title>
+  <meta name="description" content="Premium, high-performance adventure expeditions in South India. Plan your custom trail with Yatrasiri Travels.">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header id="header">
+    <div class="container nav-container">
+      <a href="#hero" class="logo">
+        <i class="fa-solid fa-compass"></i> Yatrasiri<span>Travels</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#hero" class="active">Home</a></li>
+        <li><a href="#journey">Journey</a></li>
+        <li><a href="#destinations">Adventures</a></li>
+        <li><a href="#planner">Plan Trip</a></li>
+        <li><a href="#about">About</a></li>
+        <li><button class="glow-btn" id="contact-nav-btn"><i class="fa-brands fa-whatsapp"></i> Contact Us</button></li>
+      </ul>
+      <div class="mobile-nav-toggle" id="mobile-nav-toggle">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-parallax-wrapper">
+      <div class="hero-bg"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-tagline">[ Est. 2020 // Wild South India ]</div>
+      <h1>Yatrasiri Travels</h1>
+      <p>Immersive, premium adventure expeditions. Trek high-altitude ridges, explore medieval ruins, and camp along red sandstone gorges.</p>
+      <div class="hero-buttons">
+        <a href="#journey" class="glow-btn">Begin Journey</a>
+        <a href="#planner" class="secondary-btn">Build Itinerary</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scrollytelling Section -->
+  <section class="journey-scroller" id="journey">
+    
+    <!-- Sticky Display Screen -->
+    <div class="journey-sticky" id="journey-sticky" data-active-stop="1">
+      
+      <!-- Parallax backgrounds layer -->
+      <div class="journey-canvas-list">
+        <div class="canvas-layer active" data-stop="1"></div>
+        <div class="canvas-layer" data-stop="2"></div>
+        <div class="canvas-layer" data-stop="3"></div>
+        <div class="canvas-layer" data-stop="4"></div>
+        <div class="canvas-layer" data-stop="5"></div>
+        <div class="canvas-layer" data-stop="6"></div>
+        <div class="canvas-layer" data-stop="7"></div>
+      </div>
+
+      <!-- Floating Glass Map Panel -->
+      <div class="journey-map-panel">
+        <div class="map-header">
+          <span class="map-tag">[ Expedition Route ]</span>
+          <h3 id="map-stop-title">Munnar Highland</h3>
+          <span id="map-stop-index">[ 01 // 07 ]</span>
+        </div>
+        <div class="svg-map-wrapper">
+          <svg id="india-map" viewBox="0 0 300 350" width="100%" height="100%">
+            <!-- Stylized Minimalist India Outline -->
+            <path d="M 140,20 L 165,35 L 165,65 L 180,75 L 195,65 L 205,80 L 230,85 L 235,100 L 280,105 L 275,120 L 250,120 L 245,135 L 220,135 L 220,165 L 235,180 L 230,195 L 210,195 L 205,210 L 190,220 L 180,245 L 175,270 L 165,295 L 150,330 L 140,295 L 130,270 L 125,245 L 115,220 L 100,210 L 95,195 L 65,195 L 50,180 L 30,150 L 50,120 L 75,120 L 80,105 L 105,100 L 115,80 L 125,65 L 125,35 Z" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2" />
+            
+            <!-- Route path (Direct line from Start to End) -->
+            <path id="route-path" d="M 138,305 L 112,240" fill="none" stroke="rgba(0, 236, 179, 0.15)" stroke-width="1.5" stroke-dasharray="4,4" />
+            
+            <!-- Route nodes (Start and End only) -->
+            <circle cx="138" cy="305" r="4.5" class="map-node active" data-map-stop="start" />
+            <circle cx="112" cy="240" r="4.5" class="map-node" data-map-stop="end" />
+            
+            <!-- Neon pointer -->
+            <circle id="map-pointer" cx="138" cy="305" r="6.5" />
+          </svg>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Invisible trigger layers to capture scroll position -->
+    <div class="journey-triggers">
+      <div class="trigger-stop" data-stop="1"></div>
+      <div class="trigger-stop" data-stop="2"></div>
+      <div class="trigger-stop" data-stop="3"></div>
+      <div class="trigger-stop" data-stop="4"></div>
+      <div class="trigger-stop" data-stop="5"></div>
+      <div class="trigger-stop" data-stop="6"></div>
+      <div class="trigger-stop" data-stop="7"></div>
+    </div>
+
+  </section>
+
+  <!-- South India Adventure Grid -->
+  <section class="section" id="destinations">
+    <div class="container">
+      <h2 class="section-title">Expedition Catalog</h2>
+      <div class="destinations-grid">
+        
+        <!-- Hampi Card -->
+        <div class="dest-card">
+          <div class="dest-image-wrapper">
+            <img src="assets/images/hampi.png" alt="Ancient ruins of Hampi" class="dest-image">
+            <span class="dest-tag">Bouldering</span>
+          </div>
+          <div class="dest-info">
+            <span class="dest-state">[ State // Karnataka ]</span>
+            <h3>Hampi Boulders & Ruins</h3>
+            <p>Scramble up high-grade granite boulders and cycle around medieval UNESCO heritage temples in a dry riverbed valley.</p>
+            <div class="dest-meta">
+              <span><i class="fa-solid fa-clock"></i> 3-4 Days</span>
+              <button class="card-btn open-contact-btn" data-trip="Hampi Bouldering & Ruins">Book Expedition</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Munnar Card -->
+        <div class="dest-card">
+          <div class="dest-image-wrapper">
+            <img src="assets/images/hero_bg.png" alt="Misty tea gardens of Munnar" class="dest-image">
+            <span class="dest-tag">Trekking</span>
+          </div>
+          <div class="dest-info">
+            <span class="dest-state">[ State // Kerala ]</span>
+            <h3>Munnar Cloud Ridges</h3>
+            <p>Conquer the high-altitude mountain trails, walking through pine forests and cloud forests overlooking organic tea estates.</p>
+            <div class="dest-meta">
+              <span><i class="fa-solid fa-clock"></i> 4-5 Days</span>
+              <button class="card-btn open-contact-btn" data-trip="Munnar Misty Peak Trekking">Book Expedition</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Varkala Card -->
+        <div class="dest-card">
+          <div class="dest-image-wrapper">
+            <img src="assets/images/varkala.png" alt="Aerial cliffside beach view of Varkala" class="dest-image">
+            <span class="dest-tag">Coastal Surf</span>
+          </div>
+          <div class="dest-info">
+            <span class="dest-state">[ State // Kerala ]</span>
+            <h3>Varkala Cliffside Surf</h3>
+            <p>Paddle out into rolling Arabian Sea breaks and hike the lateral red cliffs for fresh seafood and sunset yoga sessions.</p>
+            <div class="dest-meta">
+              <span><i class="fa-solid fa-clock"></i> 2-3 Days</span>
+              <button class="card-btn open-contact-btn" data-trip="Varkala Cliff Beach & Surf">Book Expedition</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gandikota Card -->
+        <div class="dest-card">
+          <div class="dest-image-wrapper">
+            <img src="assets/images/gandikota.png" alt="Gandikota Canyon Gorge" class="dest-image">
+            <span class="dest-tag">Canyon Gorge</span>
+          </div>
+          <div class="dest-info">
+            <span class="dest-state">[ State // Andhra Pradesh ]</span>
+            <h3>Gandikota Gorge Camping</h3>
+            <p>Pitch high-altitude dome tents directly on the cliff-edge of India's grandest red sandstone river gorge.</p>
+            <div class="dest-meta">
+              <span><i class="fa-solid fa-clock"></i> 2 Days</span>
+              <button class="card-btn open-contact-btn" data-trip="Gandikota Canyon Gorge Camping">Book Expedition</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Dates Trip Planner Section -->
+  <section class="section" id="planner">
+    <div class="container">
+      <h2 class="section-title">Dynamic Trip Planner</h2>
+      
+      <div class="planner-layout">
+        <!-- Input Form Sidebar -->
+        <div class="planner-form-container">
+          <form class="planner-form" id="trip-planner-form">
+            <h3>Configure Trail</h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="start-date">Start Date</label>
+                <input type="date" id="start-date" required>
+              </div>
+              <div class="form-group">
+                <label for="end-date">End Date</label>
+                <input type="date" id="end-date" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="destination-select">Target State</label>
+              <select id="destination-select" required>
+                <option value="" disabled selected>Select Target State</option>
+                <option value="karnataka">Karnataka (Heritage, Boulder, Falls)</option>
+                <option value="kerala">Kerala (Western Ghats & Coasts)</option>
+                <option value="andhra">Andhra Pradesh (Canyons & Caves)</option>
+                <option value="tamilnadu">Tamil Nadu (Alpine Valley & Rails)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Adventure Style</label>
+              <div class="checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="style" value="trekking" checked> Trekking
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="style" value="beach"> Beaches
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="style" value="heritage" checked> Heritage
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="style" value="camping"> Camping
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="pace-select">Travel Pace</label>
+              <select id="pace-select">
+                <option value="moderate" selected>Moderate Exploration</option>
+                <option value="intense">Action-Packed / Active</option>
+                <option value="relaxed">Slow Travel / Chill</option>
+              </select>
+            </div>
+
+            <button type="submit" class="glow-btn" style="width: 100%; margin-top: 1rem;">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Itinerary
+            </button>
+          </form>
+        </div>
+
+        <!-- Dynamic Output Timeline -->
+        <div class="planner-results-container" id="planner-results-container">
+          <div class="placeholder-view" id="placeholder-view">
+            <div class="placeholder-icon">
+              <i class="fa-solid fa-calendar-days"></i>
+            </div>
+            <h4>Your Adventure Timeline</h4>
+            <p>Select your dates, preferred state, and adventure styles on the left to dynamically generate a customized trip itinerary.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about-layout">
+        
+        <div class="about-text">
+          <h2 class="section-title" style="margin-bottom:2rem; left:0; transform:none;">About Yatrasiri</h2>
+          <h3>Built For The Outdoors</h3>
+          <p>Yatrasiri Travels is a premium adventure expedition organization cataloging and guiding wilderness trails across South India. We design customized paths that focus on raw nature—from steep mountain passes to dense coffee plantations and ancient riverbeds.</p>
+          <p>Every trek, bouldering, and canyon trail is scouted, mapped, and guided by certified survival instructors, utilizing top-tier camping logistics to guarantee carbon-neutral, safe, and intense outdoor exploration.</p>
+          
+          <div class="about-stats">
+            <div class="stat-box">
+              <h4>12k+</h4>
+              <p>Expeditionists</p>
+            </div>
+            <div class="stat-box">
+              <h4>45+</h4>
+              <p>Mapped Trails</p>
+            </div>
+            <div class="stat-box">
+              <h4>4.9</h4>
+              <p>Trail Rating</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-image-container">
+          <img src="assets/images/about_trek.png" alt="Group of hikers in Western Ghats" class="about-image">
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Us Modal -->
+  <dialog id="contact-modal" class="contact-modal">
+    <div class="modal-header">
+      <h3><i class="fa-brands fa-whatsapp"></i> Enlist / Inquire</h3>
+      <button class="close-modal-btn" id="close-modal-btn" aria-label="Close modal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <form class="modal-form" id="contact-form">
+      <p>Fill out the credentials below. You'll be connected directly to the Yatrasiri Travels dispatcher on WhatsApp Web.</p>
+      
+      <div class="form-group">
+        <label for="contact-name">Full Name</label>
+        <input type="text" id="contact-name" placeholder="E.g., Rohan Kumar" required>
+      </div>
+
+      <div class="form-group">
+        <label for="contact-phone">WhatsApp Number</label>
+        <div class="phone-input-wrapper">
+          <div class="phone-prefix">+91</div>
+          <input type="tel" id="contact-phone" placeholder="9876543210" pattern="[0-9]{10}" required title="Please enter a valid 10-digit mobile number">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="contact-trip">Target Expedition</label>
+        <select id="contact-trip">
+          <option value="General Query">General Expedition Consultation</option>
+          <option value="Hampi Bouldering & Ruins">Hampi Bouldering & Ruins</option>
+          <option value="Munnar Misty Peak Trekking">Munnar Misty Peak Trekking</option>
+          <option value="Varkala Cliff Beach & Surf">Varkala Cliff Beach & Surf</option>
+          <option value="Gandikota Canyon Gorge Camping">Gandikota Canyon Gorge Camping</option>
+          <option value="Coorg Coffee Estate Trails">Coorg Coffee Estate Trails</option>
+          <option value="Ooty Mountain Pass Trek">Ooty Mountain Pass Trek</option>
+          <option value="Jog Falls Gorge Exploration">Jog Falls Gorge Exploration</option>
+          <option value="Custom Dynamic Itinerary">My Custom Itinerary</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="contact-message">Additional Directives (Optional)</label>
+        <textarea id="contact-message" rows="3" placeholder="Notes on physical fitness, squad size, or custom gear requirements..."></textarea>
+      </div>
+
+      <div class="modal-buttons">
+        <button type="button" class="secondary-btn" id="cancel-modal-btn">Cancel</button>
+        <button type="submit" class="glow-btn"><i class="fa-solid fa-paper-plane"></i> Dispatch Whatsapp</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="#hero" class="logo" style="margin-bottom:1.5rem; font-size:1.4rem;">
+            <i class="fa-solid fa-compass"></i> Yatrasiri<span>Travels</span>
+          </a>
+          <p>Scouting, mapping, and executing premium wilderness expeditions across South India since 2020.</p>
+        </div>
+        <div class="footer-links-group">
+          <div class="footer-links">
+            <h5>Expeditions</h5>
+            <ul>
+              <li><a href="#hero">Home</a></li>
+              <li><a href="#journey">Journey</a></li>
+              <li><a href="#destinations">Catalog</a></li>
+              <li><a href="#planner">Planner</a></li>
+            </ul>
+          </div>
+          <div class="footer-links">
+            <h5>Social Links</h5>
+            <ul>
+              <li><a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+              <li><a href="#"><i class="fa-brands fa-youtube"></i> YouTube</a></li>
+              <li><a href="#"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Yatrasiri Travels. Crafted for the explorer within.</p>
+        <div class="footer-socials">
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" aria-label="WhatsApp" class="open-contact-btn" data-trip="General Query"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Custom JS -->
+  <script src="index.js"></script>
+</body>
+</html>
