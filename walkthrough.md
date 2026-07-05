@@ -1,21 +1,22 @@
-# Walkthrough - Custom Clip-Path Sweep Transitions (Alethia Earth)
+# Walkthrough - Mobile SVG Hide & Grid Alignment Fixes
 
-We have refactored the scrollytelling background transitions of **Yatrasiri Travels** to feature custom clip-path portal reveals:
+We have refined the CSS rules for the mobile scrollytelling panel and the trip planner layout:
 
 ## Accomplishments
 
-### 1. GPU-Accelerated Sweeping Portal Transitions
-Replaced fades, sliders, and focus blurs with a circular mask sweep modeled after **Alethia Earth**:
-- **Drifting Portal Entry**: As a stop approaches, its landscape image materializes inside a circular portal mask starting at the left side of the screen (`cx: 20%`) with `radius: 0%`.
-- **Horizontal Sweep Reveal**: As you scroll towards the stop center, the portal sweeps to the center (`cx: 50%`) and expands to cover the entire screen (`radius: 120%`), showing the landscape photo at full size.
-- **Drifting Portal Exit**: As you scroll past the stop, the image shrinks back into a circular bubble drifting to the right (`cx: 80%`) and closes to `radius: 0%`.
-- **Parallel Realities**: When transitioning between two stops, the outgoing stop and incoming stop display as two separate circular window bubbles moving side-by-side, avoiding overlapping double exposure.
+### 1. Compact Mobile Journey Label (SVG Map Removed)
+- Hidden the India SVG route map (`.svg-map-wrapper { display: none; }`) inside the media query for mobile screens (`max-width: 768px`) in [index.css](file:///Users/shamanthnpatel/Desktop/travels/index.css).
+- Reduced the floating panel padding and gap to convert it into a beautiful, compact glass label showing the current stop number and title (e.g. `[ 01 // 07 ] Munnar Highland`) near the top.
 
-### 2. Styling Preserved
-- Kept the enlarged **340px SVG Map of India progress tracker**, navigation layout, typography, and green/blue glassmorphism theme exactly identical.
+### 2. Resolved Mobile Trip Planner Overlapping
+- Changed `.planner-form-container` to static/relative positioning (`position: relative; top: auto;`) by default on mobile.
+- Restricted the `position: sticky; top: 100px;` behavior to desktop screens (`min-width: 992px`) only.
+- This ensures that the trip configuration form scrolls naturally inline in the single-column layout on mobile, instead of floating and overlapping the itinerary results below it.
+
+### 3. Fixed Monitor View Grid Alignment
+- Configured `.planner-layout` grid to use `align-items: start;` and set `.planner-form-container` to `align-self: start;` in the desktop media query.
+- This resolves the CSS Grid stretch bug, ensuring that the form and the results column are aligned correctly at the top, and the form floats smoothly along the sidebar as the user scrolls.
 
 ## Verification
-* **HTML Structure**: Verified zero tag mismatches.
-* **CSS Structure**: Verified zero brace mismatches.
-* **JS Code**: Compiled cleanly with zero warnings.
-* **Server**: Verified serving at `http://localhost:8080/index.html`.
+* **Syntax Checks**: HTML, CSS, and JS all compile cleanly with zero errors.
+* **Server**: Verified healthy serving at `http://localhost:8080/index.html`.

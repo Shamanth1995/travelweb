@@ -652,6 +652,7 @@ header .glow-btn {
 @media (min-width: 992px) {
   .planner-layout {
     grid-template-columns: 380px 1fr;
+    align-items: start;
   }
 }
 
@@ -662,8 +663,16 @@ header .glow-btn {
   padding: 2.5rem;
   box-shadow: var(--glass-shadow);
   height: fit-content;
-  position: sticky;
-  top: 100px;
+  position: relative;
+  top: auto;
+}
+
+@media (min-width: 992px) {
+  .planner-form-container {
+    position: sticky;
+    top: 100px;
+    align-self: start;
+  }
 }
 
 .planner-form h3 {
@@ -1271,39 +1280,20 @@ footer {
     padding: 0 1.5rem;
   }
 
-  /* Scrollytelling mobile overrides */
-  .journey-scroller {
-    height: auto;
-  }
-
-  .journey-sticky {
-    position: relative;
-    height: auto;
-  }
-
-  .canvas-layer {
-    position: relative;
-    height: 240px;
-    opacity: 1 !important;
-    transform: none !important;
-    border-bottom: var(--glass-border);
-    display: none;
-  }
-
-  .canvas-layer.active {
-    display: block;
-  }
-
+  /* Scrollytelling mobile adjustments */
   .journey-map-panel {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    background: rgba(2, 6, 4, 0.85);
+    position: absolute;
+    top: 6.5rem;
+    left: 5%;
+    width: 90%;
+    max-width: 320px;
+    padding: 1rem 1.4rem;
+    gap: 0.2rem;
+    border-radius: 12px;
+  }
+
+  .journey-map-panel .svg-map-wrapper {
+    display: none;
   }
 }
 
