@@ -1,13 +1,17 @@
-# Task List - Yatrasiri Travels Mobile & Layout Refinements
+# Task List - Yatrasiri Travels Date Pickers & Toasts
 
+- [x] Modify layout (`index.html`)
+  - [x] Add `#toast-container` overlay container before the closing `</body>` tag
 - [x] Modify styling (`index.css`)
-  - [x] Hide the SVG map wrapper `.svg-map-wrapper` on mobile devices (`max-width: 768px`)
-  - [x] Reduce padding and gap on mobile `.journey-map-panel` to format it as a compact floating label
-  - [x] Fix planner overlapping: Set `.planner-form-container` to static/relative positioning by default on mobile views
-  - [x] Fix monitor elements positioning: Set `.planner-form-container` to sticky only on min-width 992px, and set `align-self: start;` for correct CSS grid sticky behavior
-  - [x] Set `.planner-layout` grid to `align-items: start;` on monitor view to align columns properly
+  - [x] Style `input[type="date"]` with `color-scheme: dark;` for native dark popups
+  - [x] Style `input[type="date"]::-webkit-calendar-picker-indicator` with teal CSS filters
+  - [x] Add rules for `.toast-container` and `.toast-alert` matching the green/blue glassmorphism theme
+- [x] Modify logic (`index.js`)
+  - [x] Bind keydown listeners to `#start-date` and `#end-date` to call `event.preventDefault()`
+  - [x] Bind click listeners to `#start-date` and `#end-date` to call `inputElement.showPicker()`
+  - [x] Create `showToast(message)` function with a slide-in and 5-second fade-out timer
+  - [x] Replace standard `alert()` dialogs in the trip planner submit handler with `showToast(...)`
 - [x] Verify the application works
-  - [x] Test the restarted background python server on `http://localhost:8080`
-  - [x] Verify JS, CSS, and HTML syntaxes are fully correct
-  - [x] Confirm scrollytelling stickiness works and the map is hidden on mobile views
-  - [x] Confirm the trip planner form moves naturally on mobile scroll (no overlaps) and floats correctly on monitor views
+  - [x] Test typing inside date fields (verify blocked)
+  - [x] Click fields (verify dark-themed calendar opens)
+  - [x] Submit a trip of > 10 days (verify custom toast alert slides in, stays 5 seconds, and fades out cleanly)

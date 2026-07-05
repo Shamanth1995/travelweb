@@ -179,88 +179,192 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultsContainer = document.getElementById('planner-results-container');
   const placeholderView = document.getElementById('placeholder-view');
 
-  const itineraryDb = {
-    kerala: {
-      title: "Western Ghats & Coastal Trail",
-      tags: ["Western Ghats", "Tea Estates", "Cliffs"],
-      activities: {
-        trekking: [
-          { title: "Munnar Ridge Peak Hike", desc: "Trek to the high-altitude peaks of Munnar. Traverse cloud forests and walk along ridge trails with expert naturalists.", icon: "fa-solid fa-person-hiking" },
-          { title: "Meesapulimala Peak Ascent", desc: "Trek the second highest peak in the Western Ghats. Sleep above the clouds at our exclusive campsite.", icon: "fa-solid fa-mountain" }
-        ],
-        beach: [
-          { title: "Varkala Cliff Beach & Surf", desc: "Surfing lessons on Varkala Black Beach and walk along the red clay cliffs for sunset yoga sessions.", icon: "fa-solid fa-water" },
-          { title: "Munroe Island Backwater Kayaking", desc: "Paddle through quiet, narrow canal networks shaded by coconut palms in the backwaters.", icon: "fa-solid fa-ship" }
-        ],
-        heritage: [
-          { title: "Tea Estate & Museum Tour", desc: "Visit Munnar's historic tea museum. Learn the art of leaf processing and taste premium orthodox brews.", icon: "fa-solid fa-landmark" }
-        ],
-        camping: [
-          { title: "Suryanelli Cloud Camping", desc: "Camp in dome tents on the ridge edge. Watch the clouds roll beneath your camp at sunrise.", icon: "fa-solid fa-tent" }
-        ]
+  // Initialize and bind calendar constraints on load
+  const startDateInput = document.getElementById('start-date');
+  const endDateInput = document.getElementById('end-date');
+
+  if (startDateInput && endDateInput) {
+    const todayStr = new Date().toISOString().split('T')[0];
+    startDateInput.min = todayStr;
+    endDateInput.min = todayStr;
+
+    startDateInput.addEventListener('change', () => {
+      if (startDateInput.value) {
+        endDateInput.min = startDateInput.value;
+        if (endDateInput.value && endDateInput.value < startDateInput.value) {
+          endDateInput.value = startDateInput.value;
+        }
       }
+    });
+
+    // Block keyboard manual input and trigger calendar popup on click/focus
+    [startDateInput, endDateInput].forEach(input => {
+      input.addEventListener('keydown', (e) => {
+        if (e.key !== 'Tab' && e.key !== 'Escape') {
+          e.preventDefault();
+        }
+      });
+      input.addEventListener('click', () => {
+        try {
+          input.showPicker();
+        } catch (err) {}
+      });
+      input.addEventListener('focus', () => {
+        try {
+          input.showPicker();
+        } catch (err) {}
+      });
+    });
+  }
+
+  // All-States Terrain Classification Catalog
+  const stateGeographies = {
+    "Andhra Pradesh": { type: "canyon", tag: "Canyons & Sandstone Cliffs" },
+    "Arunachal Pradesh": { type: "himalayan", tag: "Snowy Ridges & Alpine Forests" },
+    "Assam": { type: "rainforest", tag: "Misty Valleys & Wildlife Trails" },
+    "Bihar": { type: "heritage", tag: "Ancient Monasteries & Plains" },
+    "Chhattisgarh": { type: "rainforest", tag: "Hidden Waterfalls & Dense Jungles" },
+    "Goa": { type: "coastal", tag: "Golden Beaches & Spice Orchards" },
+    "Gujarat": { type: "heritage", tag: "Salt Deserts & Historic Forts" },
+    "Haryana": { type: "heritage", tag: "Heritage Plains & Rural Fields" },
+    "Himachal Pradesh": { type: "himalayan", tag: "Pine Valleys & Snowy Passes" },
+    "Jharkhand": { type: "rainforest", tag: "Wooded Trails & Waterfalls" },
+    "Karnataka": { type: "coastal", tag: "Deccan Boulders & Western Ghats" },
+    "Kerala": { type: "coastal", tag: "Misty Mountains & Backwater Canals" },
+    "Madhya Pradesh": { type: "heritage", tag: "Tiger Reserves & Temple Fortresses" },
+    "Maharashtra": { type: "coastal", tag: "Western Ghats & Fortified Coasts" },
+    "Manipur": { type: "rainforest", tag: "Floating Lakes & Emerald Valleys" },
+    "Meghalaya": { type: "rainforest", tag: "Living Root Bridges & Caves" },
+    "Mizoram": { type: "rainforest", tag: "Bamboo Forests & High Hills" },
+    "Nagaland": { type: "rainforest", tag: "Misty Ridges & Tribal Trails" },
+    "Odisha": { type: "coastal", tag: "Mangrove Coasts & Historic Temples" },
+    "Punjab": { type: "heritage", tag: "Golden Fields & Historic Sites" },
+    "Rajasthan": { type: "heritage", tag: "Sand Dunes & Maharaja Fortresses" },
+    "Sikkim": { type: "himalayan", tag: "Glacial Lakes & Mount Kanchenjunga" },
+    "Tamil Nadu": { type: "coastal", tag: "Nilgiri Toy Train & Coastal Temples" },
+    "Telangana": { type: "heritage", tag: "Deccan Forts & Lake Basins" },
+    "Tripura": { type: "rainforest", tag: "Rock Carvings & Emerald Valleys" },
+    "Uttar Pradesh": { type: "heritage", tag: "Ganges Plains & Taj Monuments" },
+    "Uttarakhand": { type: "himalayan", tag: "High Meadows & Glacial Rivers" },
+    "West Bengal": { type: "coastal", tag: "Sundarban Delta & Darjeeling Slopes" }
+  };
+
+  // Terrain-Specific Activity Databases
+  const activitiesByGeo = {
+    himalayan: {
+      trekking: [
+        { title: "Alpine Valley Ridge Trek", desc: "Trek through high altitude shola meadows, looking out at snowy mountain slopes.", icon: "fa-solid fa-person-hiking" },
+        { title: "Glacial Pass Ascent", desc: "Climb past the tree line to a steep mountain pass, crossing freezing streams and rocky slopes.", icon: "fa-solid fa-mountain" }
+      ],
+      beach: [
+        { title: "Glacial River Water Rafting", desc: "Navigate freezing, rushing rapids fed directly by Himalayan glaciers.", icon: "fa-solid fa-water" },
+        { title: "Alpine Lake Rowboating", desc: "Paddle through crystal clear waters of a high-altitude mountain reservoir.", icon: "fa-solid fa-ship" }
+      ],
+      heritage: [
+        { title: "Monastery Cliff Walk", desc: "Explore ancient hilltop Buddhist monasteries, listening to prayers and wind bells.", icon: "fa-solid fa-landmark" },
+        { title: "Historic Trading Route Trail", desc: "Walk along sections of ancient trails, checking out stone watchtowers and trade posts.", icon: "fa-solid fa-map" }
+      ],
+      camping: [
+        { title: "Alpine Meadow Stargazing Camp", desc: "Camp in dome tents in a high alpine meadow. Enjoy sub-zero stargazing around a wood fire.", icon: "fa-solid fa-tent" },
+        { title: "Pine Forest Ridge Camp", desc: "Set up tents in a whispering pine forest, watching the valley clouds roll in at dusk.", icon: "fa-solid fa-campground" }
+      ]
     },
-    karnataka: {
-      title: "Deccan Boulders & Waterfalls",
-      tags: ["Heritage", "Boulders", "Waterfalls"],
-      activities: {
-        trekking: [
-          { title: "Jog Falls Canyon Gorge Exploration", desc: "Trek down the steep canyon trail of Jog Falls, standing at the base of the colossal cascades.", icon: "fa-solid fa-person-hiking" },
-          { title: "Coorg Coffee Estate Hike", desc: "Trek along off-road muddy coffee trails, exploring evergreen forests and spice plantations.", icon: "fa-solid fa-leaf" }
-        ],
-        beach: [
-          { title: "Tungabhadra Coracle Crossing", desc: "Cross the swirling Tungabhadra river in a circular, woven bamboo coracle boat to reach Hampi's Anegundi side.", icon: "fa-solid fa-ship" },
-          { title: "Sanapur Lake Freshwater Swim", desc: "Relax and swim in the boulder-lined waters of Sanapur Lake, a scenic freshwater oasis.", icon: "fa-solid fa-water" }
-        ],
-        heritage: [
-          { title: "Hampi Ruins Cycling Tour", desc: "Cycle around Hampi's ancient structures: the Stone Chariot, Virupaksha temple, and the Queen's Bath.", icon: "fa-solid fa-bicycle" }
-        ],
-        camping: [
-          { title: "Hampi Boulders Stargazing", desc: "Set up tents on the massive rock formations. Enjoy a night of bonfire music and stargazing.", icon: "fa-solid fa-tent" },
-          { title: "Coorg Forest Off-Road Camp", desc: "Camp inside a dense private forest in Coorg, listening to forest crickets under starry skies.", icon: "fa-solid fa-campground" }
-        ]
-      }
+    coastal: {
+      trekking: [
+        { title: "Western Ghats Highland Hike", desc: "Trek under the evergreen canopy, seeking endemic species and mossy streams.", icon: "fa-solid fa-person-hiking" },
+        { title: "Coastal Cliff Ridge Walk", desc: "Trek along coastal red clay cliffs with panoramic views of the ocean waves.", icon: "fa-solid fa-leaf" }
+      ],
+      beach: [
+        { title: "Black Sand Beach Surf Session", desc: "Take surf lessons on clean ocean swells, ending with beach yoga at sunset.", icon: "fa-solid fa-water" },
+        { title: "Mangrove Backwater Kayaking", desc: "Paddle through dense mangrove tunnels, watching kingfishers and river otters.", icon: "fa-solid fa-ship" }
+      ],
+      heritage: [
+        { title: "Coastal Fort Ruins Walk", desc: "Explore a medieval stone fortress jutting into the sea, inspecting rusty ramparts.", icon: "fa-solid fa-landmark" },
+        { title: "Old Town Cycling Trail", desc: "Cycle through narrow streets of a historic trading port, admiring colonial architecture.", icon: "fa-solid fa-bicycle" }
+      ],
+      camping: [
+        { title: "Lakeside Forest Camp", desc: "Camp on the grassy banks of a clean lake, cooking trail meals over a campfire.", icon: "fa-solid fa-tent" },
+        { title: "Beach Cliff Stargazing Camp", desc: "Pitch camp overlooking the ocean cliff. Fall asleep to the sound of breaking waves.", icon: "fa-solid fa-campground" }
+      ]
     },
-    andhra: {
-      title: "Grand Canyon & Cave Expedition",
-      tags: ["Canyons", "Fortress", "Caves"],
-      activities: {
-        trekking: [
-          { title: "Gandikota Gorge Descent", desc: "Trek down the red sandstone gorge of Gandikota to the riverbed of the Pennar River.", icon: "fa-solid fa-person-hiking" }
-        ],
-        beach: [
-          { title: "Pennar River Kayaking", desc: "Paddle through the deep, orange sandstone canyon walls. Experience the gorge from the water.", icon: "fa-solid fa-ship" }
-        ],
-        heritage: [
-          { title: "Belum Caves Subterranean Trail", desc: "Descend into the second largest cave system in India. Explore maze-like paths and stalactites.", icon: "fa-solid fa-gem" },
-          { title: "Gandikota Fort Exploration", desc: "Explore the massive 12th-century sandstone fortress, its mosque ruins, granary, and temples.", icon: "fa-solid fa-landmark" }
-        ],
-        camping: [
-          { title: "Canyon Edge Stargazing Camp", desc: "Pitch camp on the sheer drop of the sandstone gorge. Watch the canyon walls glow red at sunrise.", icon: "fa-solid fa-tent" }
-        ]
-      }
+    rainforest: {
+      trekking: [
+        { title: "Living Root Bridge Exploration", desc: "Trek down deep gorges to cross suspension root bridges grown organically over centuries.", icon: "fa-solid fa-bridge" },
+        { title: "Jungle Canopy Hike", desc: "Hike through thick tropical rainforests, climbing root steps and listening to gibbon calls.", icon: "fa-solid fa-tree" }
+      ],
+      beach: [
+        { title: "Forest River Raft Crossing", desc: "Cross a rushing tropical river in a bamboo raft, navigating mild forest rapids.", icon: "fa-solid fa-water" },
+        { title: "Hidden Waterfall Swim", desc: "Trek to a secluded multi-tiered jungle pool, swimming in the fresh spray.", icon: "fa-solid fa-ship" }
+      ],
+      heritage: [
+        { title: "Tribal Settlement Walk", desc: "Visit traditional tribal villages, observing bamboo weaving and local architecture.", icon: "fa-solid fa-landmark" },
+        { title: "Ancient Rock Carving Site", desc: "Hike to a hidden rock wall covered in historic carvings and sacred glyphs.", icon: "fa-solid fa-gem" }
+      ],
+      camping: [
+        { title: "Deep Jungle Eco Camp", desc: "Camp in elevated tree houses or forest tents, listening to jungle crickets and bird calls.", icon: "fa-solid fa-tent" },
+        { title: "Jungle Riverbed Pitch", desc: "Pitch tents on a clean, rocky riverbed deep inside the rainforest sanctuary.", icon: "fa-solid fa-campground" }
+      ]
     },
-    tamilnadu: {
-      title: "Nilgiri Mountain Rail & Alpine Hikes",
-      tags: ["Pine Forest", "Toy Train", "Alpine Lake"],
-      activities: {
-        trekking: [
-          { title: "Doddabetta Peak Wilderness Hike", desc: "Trek to the highest point in Tamil Nadu through rhododendrons and shola forests.", icon: "fa-solid fa-person-hiking" },
-          { title: "Ooty Pine Valley Forest Hike", desc: "Walk through the towering pine valleys, checking out dense woods and high-altitude lakes.", icon: "fa-solid fa-tree" }
-        ],
-        beach: [
-          { title: "Avalanche Lake Rowboating", desc: "Rent rowboats or fish on the crystal clear waters of the high-altitude Avalanche Lake.", icon: "fa-solid fa-ship" }
-        ],
-        heritage: [
-          { title: "UNESCO Steam Toy Train Ride", desc: "Ride the historic steam-engine toy train through tunnels, steep bridges, and Nilgiri tea hills.", icon: "fa-solid fa-train" },
-          { title: "Toda Tribal Settlement Visit", desc: "Explore Toda tribal hamlets and inspect their unique barrel-shaped thatched huts.", icon: "fa-solid fa-landmark" }
-        ],
-        camping: [
-          { title: "Ooty Lakeside Forest Camp", desc: "Camp inside the whispering pine forests overlooking a tranquil mountain reservoir.", icon: "fa-solid fa-tent" }
-        ]
-      }
+    heritage: {
+      trekking: [
+        { title: "Aravalli Range Desert Trek", desc: "Trek through dry, rocky ridges and thorn scrub, watching for peacocks and wildlife.", icon: "fa-solid fa-person-hiking" },
+        { title: "Ancient Reservoir Trail", desc: "Hike around historical stone stepwells and abandoned dams built by ancient kings.", icon: "fa-solid fa-leaf" }
+      ],
+      beach: [
+        { title: "Sacred River Boat Crossing", desc: "Cross a wide, historic river on a wooden boat, observing ghats and temple towers.", icon: "fa-solid fa-ship" },
+        { title: "Oasis Reservoir Kayaking", desc: "Paddle across a peaceful desert lake surrounded by ancient dome pavilions.", icon: "fa-solid fa-water" }
+      ],
+      heritage: [
+        { title: "Sandstone Palace Fortress Tour", desc: "Walk through massive stone battlements, exploring maze-like courtyards and carved gates.", icon: "fa-solid fa-landmark" },
+        { title: "UNESCO Heritage ruins Cycling", desc: "Explore sprawling stone temple ruins and ancient pillars on cruiser bicycles.", icon: "fa-solid fa-bicycle" }
+      ],
+      camping: [
+        { title: "Fort Ramparts Bonfire Camp", desc: "Camp in the foothills of a medieval fortress, dining on traditional campfire delicacies.", icon: "fa-solid fa-tent" },
+        { title: "Sand Dunes Desert Camp", desc: "Pitch luxury canvas tents in the sand dunes. Watch the sky light up with millions of stars.", icon: "fa-solid fa-campground" }
+      ]
+    },
+    canyon: {
+      trekking: [
+        { title: "Sandstone Gorge Trail Trek", desc: "Hike along high, red sandstone canyon walls, climbing stone boulders and crevices.", icon: "fa-solid fa-person-hiking" },
+        { title: "Canyon Riverbed Hike", desc: "Trek down the canyon side to walk along the sandy riverbanks of a gorge.", icon: "fa-solid fa-leaf" }
+      ],
+      beach: [
+        { title: "Canyon Gorge Kayaking", desc: "Paddle through deep sandstone gorge walls, looking up at the towering cliffs.", icon: "fa-solid fa-ship" },
+        { title: "River Pool Swim", desc: "Swim in the calm, freshwater pools of the canyon riverbed under the shade of massive rocks.", icon: "fa-solid fa-water" }
+      ],
+      heritage: [
+        { title: "Sandstone Fortress Exploration", desc: "Explore a medieval sandstone fortress built right on the edge of a deep gorge.", icon: "fa-solid fa-landmark" },
+        { title: "Subterranean Caves Trail", desc: "Descend into dark, limestone caverns with stalactites and deep maze paths.", icon: "fa-solid fa-gem" }
+      ],
+      camping: [
+        { title: "Canyon Edge Stargazing Camp", desc: "Camp directly on the sandstone canyon edge, watching the gorge walls glow red in the sunrise.", icon: "fa-solid fa-tent" },
+        { title: "Sandy Riverbed Camp", desc: "Pitch tents on the quiet sandy riverbanks deep inside the sandstone canyon.", icon: "fa-solid fa-campground" }
+      ]
     }
   };
+
+  // --- 4.1 Custom Toast Notification Utility ---
+  function showToast(message) {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = 'toast-alert';
+    toast.innerHTML = `<i class="fa-solid fa-circle-info"></i> <span>${message}</span>`;
+    container.appendChild(toast);
+
+    // Force reflow
+    toast.offsetHeight;
+    toast.classList.add('show');
+
+    // Slide out and remove after 5 seconds
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => {
+        toast.remove();
+      }, 400);
+    }, 5000);
+  }
 
   if (plannerForm) {
     plannerForm.addEventListener('submit', (e) => {
@@ -278,9 +382,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const start = new Date(startDateVal);
       const end = new Date(endDateVal);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
       
+      if (start < today) {
+        showToast("Start Date must be today or in the future.");
+        return;
+      }
       if (end < start) {
-        alert("End Date must be equal to or after the Start Date.");
+        showToast("End Date must be equal to or after the Start Date.");
         return;
       }
 
@@ -288,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
       if (diffDays > 10) {
-        alert("For safety and planning accuracy, the planner generates trips up to 10 days. We've capped your generated itinerary at 10 days.");
+        showToast("For More than 10 days trip , contact us , here is the first 10 days itenerary");
       }
 
       const daysCount = Math.min(diffDays, 10);
@@ -304,18 +414,18 @@ document.addEventListener('DOMContentLoaded', () => {
       existingCard.remove();
     }
 
-    const stateData = itineraryDb[state];
-    if (!stateData) return;
+    const geoData = stateGeographies[state] || { type: "heritage", tag: "Heritage Plains & Ruins" };
+    const geoActivities = activitiesByGeo[geoData.type] || activitiesByGeo.heritage;
 
     let availableActivities = [];
     styles.forEach(style => {
-      if (stateData.activities[style]) {
-        availableActivities = [...availableActivities, ...stateData.activities[style]];
+      if (geoActivities[style]) {
+        availableActivities = [...availableActivities, ...geoActivities[style]];
       }
     });
 
     if (availableActivities.length === 0) {
-      availableActivities = [...(stateData.activities.heritage || []), ...(stateData.activities.trekking || [])];
+      availableActivities = [...(geoActivities.heritage || []), ...(geoActivities.trekking || [])];
     }
 
     const itineraryList = [];
@@ -324,24 +434,32 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (i === 0) {
         activity = {
-          title: `Arrival at ${state.charAt(0).toUpperCase() + state.slice(1)} Expedition Base`,
-          desc: "Check-in at our trail cabins. Attend a briefing with our lead survival guide, run gear diagnostics, and share a local organic dinner.",
+          title: `Arrival at ${state} Expedition Base`,
+          desc: `Check-in at our local ${state} basecamp cabins. Meet your team, run diagnostics on safety gear, and share a local trail dinner.`,
           icon: "fa-solid fa-door-open",
           tag: "Briefing"
         };
       } else if (i === days - 1 && days > 1) {
         activity = {
-          title: "Expedition Debrief & Departure",
-          desc: "Participate in a squad reflection session, return rented survival equipment, pick up organic trail spices, and board your return transfer.",
+          title: `Expedition Debrief & Departure`,
+          desc: "Participate in a trail debriefing session with the group, check out from the local cabins, return leased gear, and take your return transfers.",
           icon: "fa-solid fa-plane-departure",
           tag: "Debrief"
         };
       } else {
         const poolIndex = (i - 1) % availableActivities.length;
         const dbActivity = availableActivities[poolIndex];
+        
+        let descModifier = "";
+        if (pace === "intense") {
+          descModifier = " Expect a high-intensity, demanding pace designed to challenge your endurance on this active day.";
+        } else if (pace === "relaxed") {
+          descModifier = " Conducted at a slow, leisurely pace with frequent hydration stops and nature observation pauses.";
+        }
+
         activity = {
-          title: dbActivity.title,
-          desc: dbActivity.desc,
+          title: `${state} ${dbActivity.title}`,
+          desc: dbActivity.desc + descModifier,
           icon: dbActivity.icon,
           tag: styles[poolIndex % styles.length]
         };
@@ -359,8 +477,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let timelineHtml = `
       <div class="itinerary-header">
         <div class="itinerary-title">
-          <h4>${stateData.title}</h4>
-          <p>${startFormatted} — ${endFormatted}</p>
+          <h4>${state} Trail Expedition</h4>
+          <p>${geoData.tag} // ${startFormatted} — ${endFormatted}</p>
         </div>
         <div class="itinerary-stats">
           <div class="itinerary-stat-item">

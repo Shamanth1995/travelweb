@@ -197,25 +197,47 @@
           <form class="planner-form" id="trip-planner-form">
             <h3>Configure Trail</h3>
             
-            <div class="form-row">
-              <div class="form-group">
-                <label for="start-date">Start Date</label>
-                <input type="date" id="start-date" required>
-              </div>
-              <div class="form-group">
-                <label for="end-date">End Date</label>
-                <input type="date" id="end-date" required>
-              </div>
+            <div class="form-group">
+              <label for="start-date"><i class="fa-regular fa-calendar-days" style="color: var(--accent-teal); margin-right: 0.5rem;"></i>Start Date</label>
+              <input type="date" id="start-date" required>
+            </div>
+            <div class="form-group">
+              <label for="end-date"><i class="fa-regular fa-calendar-days" style="color: var(--accent-teal); margin-right: 0.5rem;"></i>End Date</label>
+              <input type="date" id="end-date" required>
             </div>
 
             <div class="form-group">
               <label for="destination-select">Target State</label>
               <select id="destination-select" required>
                 <option value="" disabled selected>Select Target State</option>
-                <option value="karnataka">Karnataka (Heritage, Boulder, Falls)</option>
-                <option value="kerala">Kerala (Western Ghats & Coasts)</option>
-                <option value="andhra">Andhra Pradesh (Canyons & Caves)</option>
-                <option value="tamilnadu">Tamil Nadu (Alpine Valley & Rails)</option>
+                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Assam">Assam</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Chhattisgarh">Chhattisgarh</option>
+                <option value="Goa">Goa</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                <option value="Jharkhand">Jharkhand</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Manipur">Manipur</option>
+                <option value="Meghalaya">Meghalaya</option>
+                <option value="Mizoram">Mizoram</option>
+                <option value="Nagaland">Nagaland</option>
+                <option value="Odisha">Odisha</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Sikkim">Sikkim</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Tripura">Tripura</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="West Bengal">West Bengal</option>
               </select>
             </div>
 
@@ -396,5 +418,7 @@
 
   <!-- Custom JS -->
   <script src="index.js"></script>
+  <!-- Toast Overlay Container -->
+  <div id="toast-container" class="toast-container"></div>
 </body>
 </html>
